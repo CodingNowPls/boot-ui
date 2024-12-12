@@ -1,10 +1,10 @@
-## 表格组件
+ 
 
 ## 开发
 
 ```bash
 # 克隆项目
- 
+git clone  
 
 # 进入项目目录
 cd boot-ui

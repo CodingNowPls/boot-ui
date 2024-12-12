@@ -1,9 +1,8 @@
 {
-  "name": "boot-ui",
+  "name": "boot",
   "version": "3.8.5",
   "description": "快速开发平台",
   "author": "boot",
-  "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build:prod": "vue-cli-service build",
@@ -23,15 +22,11 @@
     ]
   },
   "keywords": [
-    "vue",
-    "admin",
-    "dashboard",
-    "element-ui",
-    "boilerplate",
-    "admin-template",
-    "management-system"
-  ],
 
+  ],
+  "repository": {
+
+  },
   "dependencies": {
     "@riophae/vue-treeselect": "0.4.0",
     "axios": "0.24.0",
@@ -69,12 +64,10 @@
     "connect": "3.6.6",
     "eslint": "7.15.0",
     "eslint-plugin-vue": "7.2.0",
-    "html-webpack-plugin": "^5.6.0",
     "lint-staged": "10.5.3",
     "runjs": "4.4.2",
     "sass": "1.32.13",
     "sass-loader": "10.1.1",
-    "script-ext-html-webpack-plugin": "2.1.5",
     "svg-sprite-loader": "5.1.1",
     "vue-template-compiler": "2.6.12"
   },

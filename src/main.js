@@ -5,8 +5,8 @@ import Cookies from 'js-cookie'
 import Element from 'element-ui'
 import './assets/styles/element-variables.scss'
 
-import '@/assets/styles/index.scss' // global css
-import '@/assets/styles/boot.scss' // boot css
+import '@/assets/styles/index.scss'
+import '@/assets/styles/boot.scss'
 import App from './App'
 import store from './store'
 import router from './router'
@@ -37,12 +37,6 @@ import DictTag from '@/components/DictTag'
 import VueMeta from 'vue-meta'
 // 字典数据组件
 import DictData from '@/components/DictData'
-
-//vxe-table
-import VXETable from 'vxe-table'
-import 'vxe-table/lib/style.css'
-
-Vue.use(VXETable)
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
