@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      title: '销售-库存一体化管理系统',
+      title: '后台管理系统',
       logo: logoImg
     }
   }
