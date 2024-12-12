@@ -137,64 +137,10 @@ export default {
       })
     },
     toMessagePage() {
-      //前往通知公告管理页面
-      this.$router.push('/message/index')
+
     },
 
     createSse() {
-      if (window.EventSource) {
-        // 用户userId
-        let userId = this.$store.state.user.userId
-        // 根据环境的不同，变更url
-        let url = process.env.VUE_APP_BASE_API + '/sse/connect/' + userId
-        this.eventSource = new EventSourcePolyfill(
-          `${url}`, {
-            // 设置重连时间
-            heartbeatTimeout: 60 * 60 * 1000,
-            // 添加token
-            headers: {
-              'Authorization': `Bearer ${getToken()}`
-            }
-          })
-        this.eventSource.onopen = (e) => {
-          console.log('已建立SSE连接~')
-        }
-        this.eventSource.onmessage = (e) => {
-          console.log('已接受到消息:', e.data)
-          let res = JSON.parse(e.data)
-          let count = res.messageList.length
-          if (res.messageList.length > 0) {
-            this.messageCount = count
-            this.messageContent = '您有' + count + '条待处理的信息';
-            // 弹出通知
-            this.$notify({
-              title: '新消息',
-              message: this.messageContent,
-              type: 'success',
-              duration: 2000
-            });
-            this.$router.push('/message/index');
-          }
-        }
-
-
-
-        this.eventSource.onerror = (e) => {
-          if (e.readyState == EventSource.CLOSED) {
-            console.log('SSE连接关闭')
-          } else if (this.eventSource.readyState == EventSource.CONNECTING) {
-            console.log('SSE正在重连')
-            //重新设置token
-            this.eventSource.headers = {
-              'Authorization': `Bearer ${getToken()}`
-            }
-          } else {
-            console.log('error', e)
-          }
-        }
-      } else {
-        console.log('你的浏览器不支持SSE~')
-      }
     }
   }
 }
