@@ -178,8 +178,8 @@
                 调用方法
                 <el-tooltip placement="top">
                   <div slot="content">
-                    Bean调用示例：bootTask.bootParams('boot')
-                    <br />Class类调用示例：com.boot.quartz.task.BootTask.bootParams('boot')
+                    Bean调用示例：bootTask.params('boot')
+                    <br />Class类调用示例：com.boot.quartz.task.BootTask.params('boot')
                     <br />参数说明：支持字符串，布尔类型，长整型，浮点型，整型
                   </div>
                   <i class="el-icon-question"></i>
