@@ -21,15 +21,11 @@
       "git add"
     ]
   },
-  "keywords": [
-
-  ],
-  "repository": {
-
-  },
+  "keywords": [],
+  "repository": {},
   "dependencies": {
     "@riophae/vue-treeselect": "0.4.0",
-    "axios": "0.24.0",
+    "axios": "1.6.2",
     "clipboard": "2.0.8",
     "core-js": "3.25.3",
     "echarts": "5.4.0",
@@ -68,8 +64,8 @@
     "runjs": "4.4.2",
     "sass": "1.32.13",
     "sass-loader": "10.1.1",
-    "svg-sprite-loader": "5.1.1",
     "script-ext-html-webpack-plugin": "^2.1.5",
+    "svg-sprite-loader": "5.1.1",
     "vue-template-compiler": "2.6.12"
   },
   "engines": {
