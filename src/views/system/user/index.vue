@@ -319,11 +319,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="直播间名称" prop="storehouseName">
-              <el-input v-model="form.storehouseName" maxlength="50" placeholder="请输入直播间名称"/>
-            </el-form-item>
-          </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
