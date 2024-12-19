@@ -39,12 +39,12 @@ const user = {
   actions: {
     // 登录
     Login({ commit }, userInfo) {
-      const username = userInfo.username.trim()
+      const userName = userInfo.userName.trim()
       const password = userInfo.password
       const code = userInfo.code
       const uuid = userInfo.uuid
       return new Promise((resolve, reject) => {
-        login(username, password, code, uuid).then(res => {
+        login(userName, password, code, uuid).then(res => {
           //后台刚好是1440分钟，前端减少上几秒钟
           let seconds = (1440 * 60 - 10) //1440分钟 减去10秒
           let expires = new Date(new Date() * 1 + seconds * 1000);

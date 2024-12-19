@@ -18,7 +18,7 @@ export function getUser(userId) {
   })
 }
 
-export function getUserName(userId) {
+export function getuserName(userId) {
   return request({
     url: '/system/user/getUserInfo/' + Number(parseStrEmpty(userId)),
     method: 'get'
