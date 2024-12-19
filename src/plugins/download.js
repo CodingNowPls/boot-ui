@@ -6,10 +6,11 @@ import errorCode from '@/utils/errorCode'
 import { blobValidate } from "@/utils/boot";
 
 const baseURL = process.env.VUE_APP_BASE_API
+const downLoadBaseURL = process.env.VUE_APP_API_BASE_URL
 
 export default {
   name(name, isDelete = true) {
-    var url = baseURL + "/common/download?fileName=" + encodeURIComponent(name) + "&delete=" + isDelete
+    var url = downLoadBaseURL + "/attachment/download?fileName=" + encodeURIComponent(name) + "&delete=" + isDelete
     axios({
       method: 'get',
       url: url,
@@ -26,7 +27,7 @@ export default {
     })
   },
   resource(resource) {
-    var url = baseURL + "/common/download/resource?resource=" + encodeURIComponent(resource);
+    var url = downLoadBaseURL + "/attachment/download/resource?resource=" + encodeURIComponent(resource);
     axios({
       method: 'get',
       url: url,
