@@ -65,12 +65,14 @@
 import { getCodeImg } from "@/api/login";
 import Cookies from "js-cookie";
 import { encrypt, decrypt } from '@/utils/jsencrypt'
+import { getConfig } from '@/api/system/config'
 
 export default {
   name: "Login",
   data() {
     return {
       codeUrl: "",
+      registerConfigId: 5,
       loginForm: {
         userName: "",
         password: "",
@@ -104,10 +106,17 @@ export default {
     }
   },
   created() {
+    this.getConfig();
     this.getCode();
     this.getCookie();
+
   },
   methods: {
+    getConfig() {
+      getConfig(this.registerConfigId).then(res => {
+          this.register = res.data.configValue == 'true' ? true : false;
+      })
+    },
     getCode() {
       getCodeImg().then(res => {
         this.captchaEnabled = res.captchaEnabled === undefined ? true : res.captchaEnabled;
