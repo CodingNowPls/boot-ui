@@ -56,7 +56,7 @@
     </el-form>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2018-2023 HuangZhou Technology Co., Ltd. </span>
+      <span>Copyright © 2018-2023 boot ui Technology Co., Ltd. </span>
     </div>
   </div>
 </template>
