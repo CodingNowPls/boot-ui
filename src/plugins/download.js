@@ -17,8 +17,8 @@ export default {
       responseType: 'blob',
       headers: { 'Authorization': 'Bearer ' + getToken() }
     }).then(async (res) => {
-      const isLogin = await blobValidate(res.data);
-      if (isLogin) {
+      const isBlob = blobValidate(res.data);
+      if (isBlob) {
         const blob = new Blob([res.data])
         this.saveAs(blob, decodeURIComponent(res.headers['download-filename']))
       } else {
