@@ -75,6 +75,11 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/print/designer',
+    component: () => import('@/views/print/Designer'),
+    meta: { title: '打印设计', roles: ['admin'] }
+  },
+  {
     path: '/user',
     component: Layout,
     hidden: true,
