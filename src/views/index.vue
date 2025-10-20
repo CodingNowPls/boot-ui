@@ -36,6 +36,7 @@
 <script>
 import PanelGroup from './dashboard/PanelGroup'
 import { checkRole } from "@/utils/permission";
+import { openExternalLinkWithToken } from '@/utils/external-link'
 
 export default {
   name: 'Index',
@@ -64,7 +65,7 @@ export default {
   },
   methods: {
     goTarget(href) {
-      window.open(href, '_blank')
+      openExternalLinkWithToken(href)
     },
     /**
      * 跳转view

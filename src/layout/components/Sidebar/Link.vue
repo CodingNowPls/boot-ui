@@ -1,11 +1,12 @@
 <template>
-  <component :is="type" v-bind="linkProps(to)">
+  <component :is="type" v-bind="linkProps(to)" @click="handleLinkClick">
     <slot />
   </component>
 </template>
 
 <script>
 import { isExternal } from '@/utils/validate'
+import { openExternalLinkWithToken } from '@/utils/external-link'
 
 export default {
   props: {
@@ -36,6 +37,12 @@ export default {
       }
       return {
         to: to
+      }
+    },
+    handleLinkClick(event) {
+      if (this.isExternal) {
+        event.preventDefault()
+        openExternalLinkWithToken(this.to)
       }
     }
   }

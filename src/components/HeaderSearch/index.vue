@@ -22,6 +22,7 @@
 // make search results more in line with expectations
 import Fuse from 'fuse.js/dist/fuse.min.js'
 import path from 'path'
+import { openExternalLinkWithToken } from '@/utils/external-link'
 
 export default {
   name: 'HeaderSearch',
@@ -74,7 +75,8 @@ export default {
       if(this.ishttp(val.path)) {
         // http(s):// 路径新窗口打开
         const pindex = path.indexOf("http");
-        window.open(path.substr(pindex, path.length), "_blank");
+        const url = path.substr(pindex, path.length);
+        openExternalLinkWithToken(url);
       } else {
         this.$router.push(val.path)
       }
