@@ -176,6 +176,23 @@
               </el-radio-group>
             </el-form-item>
           </el-col>
+
+
+          <el-col v-if="form.menuType != 'F' && form.isFrame == '0'" :span="12">
+            <el-form-item prop="frameEmbedFlag">
+              <span slot="label">
+                <el-tooltip content="iFrame是外置跳转还是内嵌页面" placement="top">
+                <i class="el-icon-question"></i>
+                </el-tooltip>
+                是否内嵌
+              </span>
+              <el-radio-group v-model="form.frameEmbedFlag">
+                <el-radio label="1">是</el-radio>
+                <el-radio label="2">否</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+
           <el-col v-if="form.menuType != 'F'" :span="12">
             <el-form-item prop="path">
               <span slot="label">
@@ -327,6 +344,18 @@ export default {
         ],
         path: [
           { required: true, message: '路由地址不能为空', trigger: 'blur' }
+        ],
+        frameEmbedFlag: [
+          { 
+            validator: (rule, value, callback) => {
+              if (this.form.isFrame === '0' && (value === undefined || value === '')) {
+                callback(new Error('当选择外链时，是否内嵌不能为空'))
+              } else {
+                callback()
+              }
+            }, 
+            trigger: 'change' 
+          }
         ]
       }
     }
@@ -382,6 +411,7 @@ export default {
         menuType: 'M',
         orderNum: undefined,
         isFrame: '1',
+        frameEmbedFlag: '1',
         isCache: '0',
         visible: '0',
         status: '0'
@@ -423,6 +453,13 @@ export default {
       this.getTreeselect()
       getMenu(row.menuId).then(response => {
         this.form = response.data
+        // 确保数字类型字段转换为字符串以便正确回显
+        const fieldsToString = ['frameEmbedFlag', 'isFrame', 'isCache', 'visible', 'status'];
+        fieldsToString.forEach(field => {
+          if (this.form[field] !== undefined && this.form[field] !== null) {
+            this.form[field] = String(this.form[field]);
+          }
+        });
         this.open = true
         this.title = '修改菜单'
       })
