@@ -87,6 +87,19 @@ export const constantRoutes = [
         meta: { title: '个人中心', icon: 'user' }
       }
     ]
+  },
+  {
+    path: '/iframe',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: ':url(.*)',
+        component: () => import('@/views/iframe'),
+        name: 'IframeView',
+        meta: { title: 'Iframe', link: '' }
+      }
+    ]
   }
 ]
 

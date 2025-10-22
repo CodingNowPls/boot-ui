@@ -181,7 +181,7 @@
           <el-col v-if="form.menuType != 'F' && form.isFrame == '0'" :span="12">
             <el-form-item prop="frameEmbedFlag">
               <span slot="label">
-                <el-tooltip content="iFrame是外置跳转还是内嵌页面" placement="top">
+                <el-tooltip content="iframe是内嵌页面还是外置跳转" placement="top">
                 <i class="el-icon-question"></i>
                 </el-tooltip>
                 是否内嵌
@@ -346,15 +346,15 @@ export default {
           { required: true, message: '路由地址不能为空', trigger: 'blur' }
         ],
         frameEmbedFlag: [
-          { 
+          {
             validator: (rule, value, callback) => {
               if (this.form.isFrame === '0' && (value === undefined || value === '')) {
                 callback(new Error('当选择外链时，是否内嵌不能为空'))
               } else {
                 callback()
               }
-            }, 
-            trigger: 'change' 
+            },
+            trigger: 'change'
           }
         ]
       }
