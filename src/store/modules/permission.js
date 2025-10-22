@@ -34,8 +34,6 @@ const permission = {
       return new Promise(resolve => {
         // 向后端请求路由数据
         getRouters().then(res => {
-          console.log('Backend menu data:', res.data)
-      console.log('Backend menu data detailed:', JSON.stringify(res.data, null, 2))
           const sdata = JSON.parse(JSON.stringify(res.data))
           const rdata = JSON.parse(JSON.stringify(res.data))
           const sidebarRoutes = filterAsyncRouter(sdata)

@@ -54,7 +54,6 @@ export default {
       }
       // 内嵌显示的外链，创建特殊路由路径
       if (this.isEmbeddedDisplay) {
-        console.log('测试:', this.to);
         return {
           to: {
             path: '/iframe/' + encodeURIComponent(this.to),
