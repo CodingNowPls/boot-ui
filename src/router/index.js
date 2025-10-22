@@ -97,7 +97,10 @@ export const constantRoutes = [
         path: ':url(.*)',
         component: () => import('@/views/iframe'),
         name: 'IframeView',
-        meta: { title: 'Iframe', link: '' }
+        meta: { 
+          requiresAuth: true,
+          dynamic: true // 标记为动态路由  
+        }
       }
     ]
   }
@@ -183,8 +186,23 @@ Router.prototype.push = function push(location) {
   return routerPush.call(this, location).catch(err => err)
 }
 
-export default new Router({
+const router =  new Router({
   mode: 'hash', // 去掉url中的#
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.dynamic)) {
+    // 处理动态路由
+    const encodedUrl = to.params.url
+    const originalUrl = decodeURIComponent(encodedUrl)
+    
+    // 设置动态 meta
+    to.meta.title = to.query.title || 'External Link'
+    to.meta.link = originalUrl
+  }
+  next()
+})
+
+export default router

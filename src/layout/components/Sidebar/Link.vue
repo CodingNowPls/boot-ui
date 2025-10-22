@@ -58,6 +58,9 @@ export default {
         return {
           to: {
             path: '/iframe/' + encodeURIComponent(this.to),
+            query: { // 使用 query 传递标题
+              title: this.menuMeta.title || 'External Link'
+            },
             meta: {
               title: this.menuMeta.title || 'External Link',
               link: this.to
