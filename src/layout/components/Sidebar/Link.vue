@@ -23,20 +23,18 @@ export default {
     isExternalLink() {
       return isExternal(this.to)
     },
-    // 判断是否需要内嵌显示
+    //内嵌显示的外链
     isEmbeddedDisplay() {
       // isFrame=0表示外链且frameEmbedFlag=1表示内嵌显示
-      // 或者isFrame=1表示内嵌页面显示
-      return (this.menuMeta.isFrame == '0' && this.menuMeta.frameEmbedFlag == '1') ||
-             (this.menuMeta.isFrame == '1')
+      return (this.menuMeta.isFrame == '0' && this.menuMeta.frameEmbedFlag == '1')
     },
-    // 判断是否需要外置跳转
+    // 新开窗口的外链
     isExternalJump() {
       // isFrame=0表示外链且frameEmbedFlag=2表示外置跳转
       return this.menuMeta.isFrame == '0' && this.menuMeta.frameEmbedFlag == '2'
     },
     type() {
-      // 外置跳转使用a标签
+      // 新开窗口的外链
       if (this.isExternalJump) {
         return 'a'
       }
@@ -55,7 +53,8 @@ export default {
         }
       }
       // 内嵌显示的外链，创建特殊路由路径
-      if (this.isEmbeddedDisplay && this.menuMeta.isFrame == '0') {
+      if (this.isEmbeddedDisplay) {
+        console.log('测试:', this.to);
         return {
           to: {
             path: '/iframe/' + encodeURIComponent(this.to),
@@ -66,7 +65,7 @@ export default {
           }
         }
       }
-      // 普通路由或内嵌页面
+      // 普通路由
       return {
         to: to
       }
@@ -78,22 +77,22 @@ export default {
         isEmbeddedDisplay: this.isEmbeddedDisplay,
         menuMeta: this.menuMeta
       })
-      
+
       // 外置跳转处理
       if (this.isExternalJump) {
         event.preventDefault()
         console.log('External jump:', this.to)
         openExternalLinkWithToken(this.to)
-      } 
+      }
       // 内嵌显示的外链处理
       else if (this.isEmbeddedDisplay && this.menuMeta.isFrame == '0') {
         // 阻止默认的router-link行为
         event.preventDefault()
-        
+
         // 对于需要内嵌显示的外链，添加到iframe视图
         const iframePath = '/iframe/' + encodeURIComponent(this.to)
         console.log('Iframe path:', iframePath)
-        
+
         this.$store.dispatch('tagsView/addIframeView', {
           path: iframePath,
           name: this.menuMeta.title || 'External Link',
