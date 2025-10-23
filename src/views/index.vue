@@ -1,47 +1,24 @@
 <template>
   <div class="app-container home">
-    <el-row :gutter="20">
-      <el-col :xs="24" :sm="24" :md="12" :lg="8">
-        <el-card class="update-log">
-          <div slot="header" class="clearfix">
+    <div v-if="homePageUrl" class="iframe-container">
+      <inner-link :src="homePageUrl" iframe-id="homepage-iframe"></inner-link>
+    </div>
+    <div v-else class="no-homepage">
 
-          </div>
-          <p v-html="todaySalesText"></p>
-        </el-card>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="16">
-        <el-card class="update-log">
-          <panel-group :show="show" @goView="goView"/>
-        </el-card>
-      </el-col>
-    </el-row>
-    <br/>
-    <el-row :gutter="20">
-      <el-col :xs="24" :sm="24" :md="12" :lg="8">
-        <el-card class="update-log">
-          <div slot="header" class="clearfix">
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="16">
-        <el-card class="update-log">
-          <div slot="header" class="clearfix">
-          </div>
-        </el-card>
-      </el-col>
-    </el-row>
+    </div>
   </div>
 </template>
 
 <script>
 import PanelGroup from './dashboard/PanelGroup'
-import { checkRole } from "@/utils/permission";
-import { openExternalLinkWithToken } from '@/utils/external-link'
+import InnerLink from '@/layout/components/InnerLink'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Index',
   components: {
-    PanelGroup
+    PanelGroup,
+    InnerLink
   },
   data() {
     return {
@@ -52,28 +29,47 @@ export default {
       todaySalesList: [],
       todaySalesText: '',
       yesterdaySalesList: [],
-      yesterdaySalesText: ''
+      yesterdaySalesText: '',
+      homePageUrl: ''
     }
+  },
+  computed: {
+    ...mapGetters([
+      'sidebarRouters',
+      'defaultRoutes',
+      'permission_routes'
+    ])
   },
   created() {
-    if (checkRole(['admin','adminGroup'])) {
-      this.show = true
-    }
-    if (this.show) {
-    }
-
+    this.findHomePageUrl()
   },
   methods: {
-    goTarget(href) {
-      openExternalLinkWithToken(href)
+    findHomePageUrl() {
+      // 从所有路由中查找标题为"首页管理"的菜单项
+      const routes = this.permission_routes || this.defaultRoutes || []
+      const homePageItem = this.findMenuItemByTitle(routes, '首页管理')
+
+      if (homePageItem && homePageItem.meta && homePageItem.meta.link) {
+        // 清理URL中的反引号
+        this.homePageUrl = homePageItem.meta.link.replace(/`/g, '').trim()
+      }
     },
-    /**
-     * 跳转view
-     * @param type
-     */
-    goView(type) {
-      console.log('跳转的type:' + type)
-      this.$router.push(type)
+    findMenuItemByTitle(routes, title) {
+      for (const route of routes) {
+        // 检查当前路由的meta标题
+        if (route.meta && route.meta.title === title) {
+          return route
+        }
+
+        // 递归检查子路由
+        if (route.children && route.children.length > 0) {
+          const found = this.findMenuItemByTitle(route.children, title)
+          if (found) {
+            return found
+          }
+        }
+      }
+      return null
     }
   }
 }
@@ -141,6 +137,20 @@ export default {
       margin-inline-end: 0;
       padding-inline-start: 40px;
     }
+  }
+
+  .iframe-container {
+    height: calc(100vh - 200px);
+    width: 100%;
+  }
+
+  .no-homepage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    font-size: 18px;
+    color: #909399;
   }
 }
 </style>
