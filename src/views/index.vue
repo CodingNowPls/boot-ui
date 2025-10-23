@@ -10,14 +10,12 @@
 </template>
 
 <script>
-import PanelGroup from './dashboard/PanelGroup'
 import InnerLink from '@/layout/components/InnerLink'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Index',
   components: {
-    PanelGroup,
     InnerLink
   },
   data() {
