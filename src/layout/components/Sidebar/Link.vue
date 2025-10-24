@@ -7,6 +7,27 @@
 <script>
 import { isExternal } from '@/utils/validate'
 import { openExternalLinkWithToken } from '@/utils/external-link'
+import { getToken } from '@/utils/auth'
+
+/**
+ * 向URL添加token参数
+ * @param {string} url - 原始URL
+ * @param {string} token - token值
+ * @returns {string} 带有token的URL
+ */
+function addTokenToUrl(url, token) {
+  if (!token) return url
+  
+  try {
+    const urlObj = new URL(url)
+    urlObj.searchParams.set('token', token)
+    return urlObj.toString()
+  } catch (e) {
+    // 如果URL解析失败，尝试简单拼接
+    const separator = url.includes('?') ? '&' : '?'
+    return `${url}${separator}token=${token}`
+  }
+}
 
 export default {
   props: {
@@ -54,15 +75,19 @@ export default {
       }
       // 内嵌显示的外链，创建特殊路由路径
       if (this.isEmbeddedDisplay) {
+        // 获取token并添加到URL中
+        const token = getToken()
+        const urlWithToken = addTokenToUrl(this.to, token)
+        
         return {
           to: {
-            path: '/iframe/' + encodeURIComponent(this.to),
+            path: '/iframe/' + encodeURIComponent(urlWithToken),
             query: { // 使用 query 传递标题
               title: this.menuMeta.title || 'External Link'
             },
             meta: {
               title: this.menuMeta.title || 'External Link',
-              link: this.to
+              link: urlWithToken
             }
           }
         }
@@ -91,8 +116,12 @@ export default {
         // 阻止默认的router-link行为
         event.preventDefault()
 
+        // 获取token并添加到URL中
+        const token = getToken()
+        const urlWithToken = addTokenToUrl(this.to, token)
+
         // 对于需要内嵌显示的外链，添加到iframe视图
-        const iframePath = '/iframe/' + encodeURIComponent(this.to)
+        const iframePath = '/iframe/' + encodeURIComponent(urlWithToken)
         console.log('Iframe path:', iframePath)
 
         this.$store.dispatch('tagsView/addIframeView', {
@@ -100,7 +129,7 @@ export default {
           name: this.menuMeta.title || 'External Link',
           meta: {
             title: this.menuMeta.title || 'External Link',
-            link: this.to,
+            link: urlWithToken,
             isFrame: this.menuMeta.isFrame,
             frameEmbedFlag: this.menuMeta.frameEmbedFlag
           }
@@ -111,7 +140,7 @@ export default {
           name: this.menuMeta.title || 'External Link',
           meta: {
             title: this.menuMeta.title || 'External Link',
-            link: this.to
+            link: urlWithToken
           }
         })
         // 实际进行路由跳转
