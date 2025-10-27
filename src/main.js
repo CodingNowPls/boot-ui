@@ -37,9 +37,6 @@ import DictTag from '@/components/DictTag'
 import VueMeta from 'vue-meta'
 // 字典数据组件
 import DictData from '@/components/DictData'
-// hiprint 打印组件
-import { hiprint } from 'vue-plugin-hiprint'
-
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -66,11 +63,6 @@ Vue.use(plugins)
 Vue.use(VueMeta)
 DictData.install()
 
-
-Vue.use(hiprint, {
-  // 可选全局配置
-  optionItems: ['text', 'table', 'image', 'barcode']
-})
 
 /**
  * If you don't want to use mock-server
