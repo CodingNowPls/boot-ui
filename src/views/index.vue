@@ -11,6 +11,7 @@
 
 <script>
 import InnerLink from '@/layout/components/InnerLink'
+import { getIndexInfo } from '@/api/system/menu'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -42,33 +43,29 @@ export default {
     this.findHomePageUrl()
   },
   methods: {
-    findHomePageUrl() {
-      // 从所有路由中查找标题为"首页管理"的菜单项
-      const routes = this.permission_routes || this.defaultRoutes || []
-      const homePageItem = this.findMenuItemByTitle(routes, '首页管理')
+    async findHomePageUrl() {
+      // 调用后端指定首页接口
+      try {
+        const resp = await getIndexInfo()
+        const item = resp && resp.data ? resp.data : null
+        if (!item) {
+          this.homePageUrl = ''
+          return
+        }
 
-      if (homePageItem && homePageItem.meta && homePageItem.meta.link) {
-        // 清理URL中的反引号
-        this.homePageUrl = homePageItem.meta.link.replace(/`/g, '').trim()
+        const url = (item.path || '').replace(/`/g, '').trim()
+        const isHttp = (u) => /^https?:\/\//i.test(u)
+        const isExternal = item.isFrame === '0' || item.isFrame === 0
+        const isEmbed = String(item.frameEmbedFlag) === '1' || item.frameEmbedFlag === 1
+
+        // 条件：外链且内嵌页面且为有效 http 地址，才渲染
+        this.homePageUrl = (isExternal && isEmbed && isHttp(url)) ? url : ''
+      } catch (e) {
+        // 请求异常时显示空白
+        this.homePageUrl = ''
       }
     },
-    findMenuItemByTitle(routes, title) {
-      for (const route of routes) {
-        // 检查当前路由的meta标题
-        if (route.meta && route.meta.title === title) {
-          return route
-        }
 
-        // 递归检查子路由
-        if (route.children && route.children.length > 0) {
-          const found = this.findMenuItemByTitle(route.children, title)
-          if (found) {
-            return found
-          }
-        }
-      }
-      return null
-    }
   }
 }
 </script>

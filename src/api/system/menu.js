@@ -58,3 +58,12 @@ export function delMenu(menuId) {
     method: 'delete'
   })
 }
+
+
+// 获取首页信息（指定接口）
+export function getIndexInfo() {
+  return request({
+    url: '/system/menu/getIndexInfo',
+    method: 'get'
+  })
+}
